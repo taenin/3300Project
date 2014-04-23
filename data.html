@@ -72,44 +72,41 @@
 
       <ul class="symbols">
         <li class="StartWorkController">
-          <svg width="15" height="15">
-            <rect rx="4" ry="4" width="15" height="15" style="fill:#1e826e; opacity:0.8;border-radius:6px;" />
-          </svg>
-          Start Work</li> 
+          <input type="checkbox" id="StartWorkController"   class="StartWorkController" checked=true>
+          <label for="StartWorkController">
+          Start Work
+        </label>
+        </li> 
         <li>          
 
-          <input type="checkbox" id="test" value="test"  class="FirstSocialController">
-          <label for="test">
+          <input type="checkbox" id="FirstSocialController"   class="FirstSocialController" checked=true>
+          <label for="FirstSocialController">
           First Social
         </label>
         </li> 
         <li class="DinnerController">          
-          <svg width="15" height="15">
-            <rect rx="4" ry="4" width="15" height="15" style="fill:1B1F22;opacity:0.8;"/>
-            Sorry, your browser does not support inline SVG.
-          </svg>
+          <input type="checkbox" id="DinnerController"   class="DinnerController" checked=true>
+          <label for="DinnerController">
           Dinner
+        </label>
         </li> 
         <li class="SleepController">          
-          <svg width="15" height="15">
-            <rect rx="4" ry="4" width="15" height="15" style="fill:#1abc9c;opacity:0.8;"/>
-            Sorry, your browser does not support inline SVG.
-          </svg>
+          <input type="checkbox" id="SleepController"   class="SleepController" checked=true>
+          <label for="SleepController">
           Sleep
+        </label>
         </li>
         <li class="MoodController">          
-          <svg width="15" height="15">
-            <rect rx="4" ry="4" width="14" height="14" style="fill:#ffe8b2;"/>
-            Sorry, your browser does not support inline SVG.
-          </svg>
+          <input type="checkbox" id="MoodController"   class="MoodController" checked=true>
+          <label for="MoodController">
           Mood
+        </label>
         </li>
         <li class="EnergyController">          
-          <svg width="15" height="15">
-            <circle cx="7.5" cy="7.5" r="7.5" style="fill:#c9dae5;"/>
-            Sorry, your browser does not support inline SVG.
-          </svg>
+          <input type="checkbox" id="EnergyController"   class="EnergyController" checked=true>
+          <label for="EnergyController">
           Energy
+        </label>
         </li>
       </ul>
 
@@ -239,32 +236,74 @@
     //Graph Controls
     d3.select(".StartWorkController")
       .on("click", function(){
-      
+        if(!document.getElementById('StartWorkController').checked){
+          d3.selectAll(".StartWork")
+            .attr("opacity", 0);
+        }
+        else{
+          d3.selectAll(".StartWork")
+            .attr("opacity", 1);
+        }
       });
 
     d3.select(".FirstSocialController")
       .on("click", function(){
-
+        if(!document.getElementById('FirstSocialController').checked){
+          d3.selectAll(".FirstSocial")
+            .attr("opacity", 0);
+        }
+        else{
+          d3.selectAll(".FirstSocial")
+            .attr("opacity", 1);
+        }
       });
     
     d3.select(".DinnerController")
       .on("click", function(){
-        
+        if(!document.getElementById('DinnerController').checked){
+          d3.selectAll(".DinnerSocial")
+            .attr("opacity", 0);
+        }
+        else{
+          d3.selectAll(".Dinner")
+            .attr("opacity", 1);
+        }
       });
 
     d3.select(".SleepController")
       .on("click", function(){
-        
+        if(!document.getElementById('SleepController').checked){
+          d3.selectAll(".Sleep")
+            .attr("opacity", 0);
+        }
+        else{
+          d3.selectAll(".Sleep")
+            .attr("opacity", 1);
+        }
       });
 
     d3.select(".MoodController")
       .on("click", function(){
-       
+        if(!document.getElementById('MoodController').checked){
+          d3.selectAll(".Mood")
+            .attr("opacity", 0);
+        }
+        else{
+          d3.selectAll(".Mood")
+            .attr("opacity", 1);
+        }
       });
 
     d3.select(".EnergyController")
       .on("click", function(){
-       
+        if(!document.getElementById('EnergyController').checked){
+          d3.selectAll(".Energy")
+            .attr("opacity", 0);
+        }
+        else{
+          d3.selectAll(".Energy")
+            .attr("opacity", 1);
+        }
       });
 
 
