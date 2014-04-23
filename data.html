@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700' rel='stylesheet' type='text/css'>
+    <title>Mood Rhythm</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Gafata' rel='stylesheet' type='text/css'>
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="theme.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body role="document" style="background-color:#ffffff;">
+    <!-- Fixed navbar -->
+    <div class="navbar" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Mood Rhythm</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a href="data.html">Data</a></li>
+            <li><a href="contact.html">Settings</a></li>
+            <li><a href="api.html">API</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+        <!-- Single button -->
+    <div class="btn-group login">
+      <a class="dropdown-toggle login-text" data-toggle="dropdown">
+        Login <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li><input type="text" placeholder="Username"></li>
+        <li><input type="text" placeholder="Password"></li>
+        <li><button type="button" class="btn btn-default">Log in</button></li>
+      </ul>
+      <a class="login-text">Forgot Password</a>
+    </div>
+
+    <div class="container" id="graph-container">
+      <h2>Week 2 March 2014</h2>
+
+
+      <ul class="symbols">
+        <li>
+          <svg width="15" height="15">
+            <rect rx="4" ry="4" width="15" height="15" style="fill:#1e826e; opacity:0.8;border-radius:6px;" />
+          </svg>
+          Start Work</li> 
+        <li>          
+          <svg width="15" height="15">
+            <rect rx="4" ry="4" width="15" height="15" style="fill:#85eed9;opacity:0.8;"/>
+            Sorry, your browser does not support inline SVG.
+          </svg>
+          First Social
+        </li> 
+        <li>          
+          <svg width="15" height="15">
+            <rect rx="4" ry="4" width="15" height="15" style="fill:1B1F22;opacity:0.8;"/>
+            Sorry, your browser does not support inline SVG.
+          </svg>
+          Dinner
+        </li> 
+        <li>          
+          <svg width="15" height="15">
+            <rect rx="4" ry="4" width="15" height="15" style="fill:#1abc9c;opacity:0.8;"/>
+            Sorry, your browser does not support inline SVG.
+          </svg>
+          Sleep
+        </li>
+        <li>          
+          <svg width="15" height="15">
+            <rect rx="4" ry="4" width="14" height="14" style="fill:#ffe8b2;"/>
+            Sorry, your browser does not support inline SVG.
+          </svg>
+          Mood
+        </li>
+        <li>          
+          <svg width="15" height="15">
+            <circle cx="7.5" cy="7.5" r="7.5" style="fill:#c9dae5;"/>
+            Sorry, your browser does not support inline SVG.
+          </svg>
+          Energy
+        </li>
+      </ul>
+
+      <div class="graph">
+        <h4 class="date">Monday, March 10th
+          <img class="note" data-toggle="tooltip" data-placement="right" title="March 10th note: I stayed up late because I was trying to finish a report. The report was done on time. So I was in a good mood." src="materials/note.png">
+        </h4>
+
+        <div class="index">
+          <ul>
+            <li>5</li>
+            <li>4</li>
+            <li>3</li>
+            <li>2</li>
+            <li>1</li>
+            <li>0</li>
+            <li>-1</li>
+            <li>-2</li>
+            <li>-3</li>
+            <li>-4</li>
+            <li>-5</li>
+          </ul>
+        </div>
+        <ul class="time">
+          <li>0AM</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12PM</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>0AM</li>
+        </ul>
+        <div id="g">
+          <svg width="920" height="200">
+          <!--  sleep -->
+            <rect width="200" height="40" style="fill:#1abc9c; opacity:0.8;" transform="translate(0,0)"/>
+            <rect width="300" height="160" style="fill:#1abc9c; opacity:0.8;" transform="translate(0,40)"/>
+          <!--  sleep -->
+            <rect width="300" height="40" style="fill:#1abc9c; opacity:0.8;" transform="translate(730,0)"/>
+            <rect width="300" height="160" style="fill:#1abc9c; opacity:0.8;" transform="translate(800,40)"/>
+          <!--   dinner -->
+            <rect width="30" height="40" style="fill:#1B1F22; opacity:0.8;" transform="translate(650,0)"/>
+            <rect width="30" height="160" style="fill:#1B1F22; opacity:0.8;" transform="translate(700,40)"/>
+          <!--  start work -->
+            <rect width="10" height="40" style="fill:#85eed9; opacity:0.8;" transform="translate(300,0)"/>
+            <rect width="10" height="160" style="fill:#85eed9; opacity:0.8;" transform="translate(350,40)"/>
+          <!--  start work -->
+            <rect width="10" height="40" style="fill:#1e826e; opacity:0.8;" transform="translate(280,0)"/>
+            <rect width="10" height="160" style="fill:#1e826e; opacity:0.8;" transform="translate(290,40)"/>
+            <line x1="0" y1="40" x2="950" y2="40" style="stroke:#ffffff; stroke-width:3px;"/>
+          <!--   Energy -->
+            <circle cx="200" cy="100" r="7.5" style="fill:#c9dae5;"/>
+            <circle cx="500" cy="150" r="7.5" style="fill:#c9dae5;"/>
+            <circle cx="600" cy="160" r="7.5" style="fill:#c9dae5;"/>
+           <!--  Draw line for energy-->
+            <line x1="0" y1="100" x2="200" y2="100" stroke-dasharray="5,5" style="stroke:#c9dae5; stroke-width:3px;"/>
+            <line x1="200" y1="100" x2="500" y2="150" stroke-dasharray="5,5" style="stroke:#c9dae5; stroke-width:3px;"/>
+            <line x1="500" y1="150" x2="600" y2="160" stroke-dasharray="5,5" style="stroke:#c9dae5; stroke-width:3px;"/>
+            <line x1="600" y1="160" x2="920" y2="160" stroke-dasharray="5,5" style="stroke:#c9dae5; stroke-width:3px;"/>
+           <!--  Mood -->
+           <rect rx="4" ry="4" width="14" height="14" transform="translate(200,60)" style="fill:#ffe8b2;"/>
+           <rect rx="4" ry="4" width="14" height="14" transform="translate(260,50)" style="fill:#ffe8b2;"/>
+           <rect rx="4" ry="4" width="14" height="14" transform="translate(400,67)" style="fill:#ffe8b2;"/>
+           <rect rx="4" ry="4" width="14" height="14" transform="translate(560,90)" style="fill:#ffe8b2;"/>
+           <rect rx="4" ry="4" width="14" height="14" transform="translate(800,120)" style="fill:#ffe8b2;"/>
+           <!--  Draw line for modd-->
+           <line x1="0" y1="67" x2="200" y2="67" stroke-dasharray="8,8" style="stroke:#ffe8b2; stroke-width:3px;"/>
+           <line x1="200" y1="67" x2="260" y2="57" stroke-dasharray="8,8" style="stroke:#ffe8b2; stroke-width:3px;"/>
+           <line x1="260" y1="57" x2="400" y2="74" stroke-dasharray="8,8" style="stroke:#ffe8b2; stroke-width:3px;"/>
+           <line x1="400" y1="74" x2="560" y2="97" stroke-dasharray="8,8" style="stroke:#ffe8b2; stroke-width:3px;"/>
+           <line x1="560" y1="97" x2="800" y2="127" stroke-dasharray="8,8" style="stroke:#ffe8b2; stroke-width:3px;"/>
+           <line x1="800" y1="127" x2="1200" y2="127" stroke-dasharray="8,8" style="stroke:#ffe8b2; stroke-width:3px;"/>
+          </svg>
+        </div>
+        <div class="title">
+          <ul style="padding-left:20px;">
+            <li>Target</li>
+            <li>Actual</li>
+          </ul>
+        </div>
+      </div>
+
+
+
+      <div id="day1"></div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+           $("#myCarousel").carousel({
+               interval : 4000,
+               pause: false
+           });
+      });
+    </script>
+    <script> 
+    $(function () { 
+        $("[data-toggle='tooltip']").tooltip(); 
+    });
+    </script>
+    <script>
+    //functions for graph
+    var width = 920;
+    var height = 200;
+    drawDay1();
+    function drawDay1(){
+
+      /** Draw date and note*/
+      d3.select("#day1").append('h4').attr("class","date").text("Monday, March 11th");
+
+      /** Draw SVG*/
+      var svg = d3.select("#day1").append("svg").attr("height", height).attr("width", width);
+
+      /** Draw target first social.*/
+      svg.append("rect").attr("width",10).attr("height",40).style("fill","#85eed9");
+      
+      /** Draw left index -5 to 5.*/
+      d3.select("#day1").append('div').attr('class',"index").append('ul').append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0").append('li').text("-1").append('li').text("-2").append('li').text("-3").append('li').text("-4").append('li').text("-5");
+      
+    }
+
+
+
+    </script>
+  </body>
+</html>

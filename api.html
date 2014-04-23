@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700' rel='stylesheet' type='text/css'>
+    <title>Mood Rhythm</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Gafata' rel='stylesheet' type='text/css'>
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="theme.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body role="document">
+
+    <!-- Fixed navbar -->
+    <div class="navbar" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Mood Rhythm</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a href="data.html">Data</a></li>
+            <li><a href="contact.html">Settings</a></li>
+            <li><a href="api.html">API</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="linkcontainer">
+        <a class = "links" href="#m1">SOCIAL PROBE</a>
+        <a class = "links" href="#m2">SLEEP PROBE</a>
+        <a class = "links" href="#m3">SRM DPU</a>
+        <a class = "links" href="#m3">SRM DSU</a>
+      </div>
+      <h1 id="m1">Social Probe</h1>
+      <h2>Process Overview</h2>
+      <p>The main objective of social DPU is to monitor user's acoustic surroundings and to figure out the amount of conversation the user had throughout the day. The social DPU does all these works in a privacy sensitive manner, by temporarily recording 32 milliseconds of audio data once at a time and by running all the signal processing and pattern recognition algorithms on it inside the phone. So no data needs to be sent to the server end for processing the audio data.</p>
+
+      <p>The input for this processing unit is audio sensing data taken from the phone's microphone in AudioManager.java, and the output is conversation start (conversationStartTime) and stop time (conversationEndTime) in AudioManager.java.</p>
+
+      <p>All the processing happens in a social DPU are chronologically listed below:</p>
+
+      <p>1. Access microphone data: Upon configuring android’s audiorecord class for 8000 khz of sampling frequency and 16 bit of data resolution, the social DPU stores 256 samples (32 ms) of audio data in a circular buffer.</p>
+      
+      <p>2. Extract relevant acoustic features: The social DPU extract various discriminative acoustic features including relevant spectral entropy, number of autocorrelation peaks, maximum autocorrelation peak etc. This signal processing and feature extraction part of the code is implemented in the native layer and Java Native Interface (JNI) is used to pass the frame (256 microphone samples) to the native signal processing and feature extraction code. The reason why we implemented some of the computational intensive part of the code in the native layer is that native layer is fast.</p>
+      
+      <p>3. Voicing classifier: Upon extracting the relevant acoustic feature, each frame is then classified as voiced or non-voiced. The classification is done using Hidden Markov Model based classifier. For further information about the classification technique, please refer to “Sumit Basu, A Linked HMM Model for Robust Voicing and Speech Detection, ICASSP 2003". This classification is also implemented in the native layer. The output of the classifier (inferred class, acoustic features) is passed to the java layer using JNI.</p>
+      
+      <p>4. Conversation Modeling: The frame level decision (1 if voiced, 0 if non-voiced) from voicing classifier is then saved in another circular buffer (circularBuffer). We took a threshold based approach to model conversation. If the summation of the circular buffer goes above certain threshold (TH1) in our circular buffer, our algorithm declare the start of conversation. Then if the summation of the circular buffer goes below a certain threshold (TH2), we declare the end of conversation. Typically we set TH1 to be much higher than TH2.<p>
+      
+      <p>//initializing as no conversation has been detected
+      startOfConversation=0;</p>
+      <p>if(startOfConversation==0 && sum(circularBuffer)>TH1)
+      startOfConversation=1;</p>
+      <p>recordConversationStartTime();</p>
+      <p>else if(startOfConversation==1 && sum(circularBuffer) startOfConversation=0;</p>
+      <p>recordConversationEndTime();</p>
+      <p>end</p>
+
+      <p>The Social DPU service operates in a privacy sensitive manner. It does all the processing in the audio, and only 32 milliseconds of the audio is saved at a time. Conversation over phone is recorded or processed at all by our conversation detection classifier. From our previous research experience, we have seen that these measures surprisingly decrease the privacy concerns.</p>
+
+      <p id="m3">The socialDPU stores the conversation start time (long, unix time in milliseconds unit), conversation end time (long, unix time in milliseconds unit), and conversation duration (double, in seconds) in JSON format with the keys respectively "conversation_start", "conversation_end", "score". We also implemented a class named "SocialProbeWriter", which uses ProbeWriter class from the ohmageProbeLibrary to send the data through HTTP.</p>
+
+      <h2>Usage:</h2>
+
+      <p>The name of the jar file is socialDPUv5.jar. Using your preferred IDE, import the jar file in your project.
+      Get the ohmageProbeLibrary (https://github.com/cens/ohmageProbeLibrary) and setup the dependency.
+      Copy the shared object library libcomputefeatures.so to the libs/armeabi directory (create the directory if it does not exist).</p>
+      <p>Implement the socialDPUApplication class and provide a database path. In the database path, all the data being recorded will be stored in SQLite database format. We have provided a demo file, which contains sample code on how to extend this class and provide the database path.</p>
+      
+      <p>import edu.cornell.SocialDPU.SocialDPUApplication; /** * This class is the application class. This class is accessible from all contexts possible under the same process * We store a lot of configuration variables from this application class * System wide different statuses are also available here. * Quite a lot of initialization happens here * @author shuva * */ public class SocialDPUApplication2 extends SocialDPUApplication{ public static String database_path = "/sdcard/MoodRhythm/SocialDPU/"; public SocialDPUApplication2() { super(database_path); } }</p>
+
+      <p>SocialDPUApplication class extends the application class of android, so there is no need to instantiate the class that extends socialDPUApplication class. For more details on application classes in Android, consult the official Android documentation.</p>
+      
+      <p>If you want to show real time inference results from the socialDPU (voiced vs unvoiced), you can monitor the variable voice_infernce_status (0 for unvoiced 1 for voiced). The example demo provided monitors this variable and shows it in real time. Details of the implementation can be found under main_activity.java.</p>
+      
+      <p>If you want to show real time conversation inference results from the socialDPU (in conversation vs not in conversation), you can monitor the variable conversation_infernce_status (0 for no conversation 1 for conversation). The example demo also provided monitors this variable and shows it in real time.</p>
+      
+      <h2>Submission:</h2>
+
+      <p>1. socialDPUv5.jar</p>
+      <p>2. notification_layout.xml - We used notification so that the process does not get killed.</p>
+      <p>3. main_activity.java</p>
+      <p>4. SocialDPUApplication.java</p>
+      
+      <p>A sample project that uses socialDPU these strings need to be in the strings.xml file (used to post notification so socialDPU keeps running):</p>
+
+      <p>Service is in the foreground aud Service is in the foreground SocialDPU</p>
+
+      <p>In AndroidDManifest.xml, need certain permissions and start services. In the Androidmanifest file, you need to give permissions and star the services with the following code:</p>
+
+
+      <p>- When you're writing SQLite database file, optionally package it into JSON format (concordia) and look up a URL in some project file and send it there. </p>
+
+      <h1 id="m2">Sleep Probe Documentation</h1>
+
+      <h2>Process Overview</h2>
+
+      <p>The sleep probe monitors phone activity, charging state, ambient light estimate, physical activity and silence to make a decision about a user's sleep duration.</p>
+
+      <p>All the Processes happens in this probe are explained below:</p>
+
+      <p>1. Access raw sensor data</p>
+
+      <p>The sleep probe records all the following sensors continuously: microphone data, accelerometer, dark duration, lock duration, off duration, charging duration.</p>
+
+      <p>2. Feature Extraction:</p>
+
+      <p>Various features get extracted from the raw sensor data, which are given below:</p>
+
+      <p>Microphone data: The longest amount of time the phone was in silence</p>
+      <p>Accelerometer: The longest amount of the the phone was stationary</p>
+      <p>Dark duration: The amount of light</p>
+      <p>Lock duration: The longest amount of time the phone was locked
+      Off duration: The longest amount of time the phone was off</p>
+      <p>Charging duration: The charging period</p>
+
+      <h2>Sleep Inference:</h2>
+
+      <p>The sleep probe uses the relevant features described above and estimates sleep duration. The inference module in this probe uses a state-of-art linear classification technique to estimate the sleep duration.</p>
+
+      <p>As all the processes, especially the audio data processing, happen in the phone, and no raw data is saved in the phone, the sleep probe is considered to be privacy sensitive by the patients/real life users. The probe stores the duration of sleep (float, in hours) in a JSON format with the key named "sleep_duration" and uses the ohmageProbeLibrary to send the data to a server.</p>
+
+      <h2>Usage</h2>
+      <p>1. The name of the jar file is sleepProbe.jar. Using your preferred IDE, import the jar file in your project. 2. Get the ohmageProbeLibrary (https://github.com/cens/ohmageProbeLibrary) and setup the dependency. Also get commons-pool-1.5.6.jar from http://commons.apache.org/proper/commons-pool/download_pool.cgi 3. Copy the shared object library libcomputefeatures.so to the libs/armeabi directory (create the directory if it does not exist). 4. Implement the sleepProbeApplication class. We have provided a demo file, which contains sample code on how to extend this class. import edu.cornell.SleepProbeApplication; /**  * This class is the application class. This class is accessible from all contexts possible under the same process  * We store a lot of configuration variables from this application class  * System wide different statuses are also available here.  * Quite a lot of initialization happens here  *  */ public class SleepProbeApplication2 extends SleepProbeApplication {   public sleepProbeApplication2()   {   } } 5. SleepProbeApplication class extends the Application class of Android, so there is no need to instantiate the class that extends sleepProbeApplication class. For more details on application classes in Android, consult the official Android documentation. 6. SleepActivity class extends the FragmentActivity class of Android. This class should be extended since it initializes the ohmage probe required to upload data to the server. The SleepProbeActivity.java file included in the sample project shows how to use this class.</p>
+      
+      <h2>Submission</h2>
+
+      <p>sleepProbe.jar</p>
+      <p>notification_layout.xml - We used notification so that the process does not get killed.</p>
+      <p>a sample project that uses sleepProbe</p>
+      <p>The following strings need to be declared in the strings.xml file (used to post notification so sleepProbe keeps running):</p>
+
+      <p>Service is in the foreground Audio service is in the foreground</p>
+
+      <p>In AndroidManifest.xml, we need certain permissions and start services. In the AndroidManifest file, you need to give permissions and start the services with the following code:</p>
+
+      <h1>SRM DPU</h1>
+      <p>coming soon...</p>
+      <h1>SRM DSU</h1>
+      <p><a href="https://www.moodrhythm.com/mood-rhythm-dsu/">View</a> the SRM DSU</p>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+           $("#myCarousel").carousel({
+               interval : 4000,
+               pause: false
+           });
+      });
+    </script>
+  </body>
+</html>
