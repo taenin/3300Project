@@ -1,5 +1,4 @@
-{
-	"day1": {
+{"days":[{ 
 		"date": "Monday, March 10th",
 		"t-startwork": "10:00",
 		"a-startwork": "10:02",
@@ -13,9 +12,8 @@
 		"a-dinner": "20:00",
 		"mood": ["10:21", 2, "12:02", 5, "22:34", -2],
 		"energy": ["07:23", 4, "14:23", 2, "21:02", -3, "21:46", -4],
-		"note": "Normal day"
-	},
-	"day2": {
+		"note": "Normal day"},
+{
 		"date": "Tuesday, March 11th",
 		"t-startwork": "10:00",
 		"a-startwork": "10:10",
@@ -29,9 +27,8 @@
 		"a-dinner": "19:08",
 		"mood": ["10:21", 3, "12:02", 5],
 		"energy": ["09:01", -5, "10:23", -3, "12:39", -4, "14:02", 0, "16:34", 3],
-		"note": "I feel tired all day."
-	},
-	"day3": {
+		"note": "I feel tired all day."},
+{
 		"date": "Wednesday, March 12th",
 		"t-startwork": "10:00",
 		"a-startwork": "09:25",
@@ -45,9 +42,8 @@
 		"a-dinner": "20:00",
 		"mood": ["09:21", 2, "12:02", 5, "21:20", -4],
 		"energy": ["11:23", 4, "14:23", 3, "21:20", -4],
-		"note": "Normal day. Went swim for an hour."
-	},
-	"day4": {
+		"note": "Normal day. Went swim for an hour."},
+{
 		"date": "Thursday, March 13th",
 		"t-startwork": "10:00",
 		"a-startwork": "08:20",
@@ -61,9 +57,8 @@
 		"a-dinner": "20:00",
 		"mood": ["10:21", 0, "10:53", 4, "12:37", -2, "14:32", 0],
 		"energy": ["14:23", 4, "18:23", 5],
-		"note": "Didn't get much work done. Have lots of to do tomorrow."
-	},
-	"day5": {
+		"note": "Didn't get much work done. Have lots of to do tomorrow."},
+	{
 		"date": "Friday, March 14th",
 		"t-startwork": "10:00",
 		"a-startwork": "10:05",
@@ -77,9 +72,8 @@
 		"a-dinner": "18:45",
 		"mood": ["11:00", 4, "14:22", 3, "16:29", 2, "20:48", 0],
 		"energy": ["20:23", 3, "21:23", 0, "21:50", -4],
-		"note": "Normal day"
-	},
-	"day6": {
+		"note": "Normal day"},
+{
 		"date": "Saturday, March 15th",
 		"t-startwork": "12:00",
 		"a-startwork": "14:10",
@@ -93,9 +87,8 @@
 		"a-dinner": "18:00",
 		"mood": ["12:00", -4, "12:50", -5, "22:34", 3, "22:50", 4],
 		"energy": ["07:23", 4, "14:23", 2, "21:02", -3, "21:46", -4],
-		"note": "Normal day"
-	},
-	"day7": {
+		"note": "Normal day"},
+{
 		"date": "Sunday, March 16th",
 		"t-startwork": "12:00",
 		"a-startwork": "15:05",
@@ -109,9 +102,8 @@
 		"a-dinner": "18:06",
 		"mood": ["12:21", -5, "12:52", -4, "20:34", -2, "22:00", 0],
 		"energy": ["12:21", -4, "12:33", -3, "12:52", -2, "13:46", 0, "15:02", 3, "20:37", 5],
-		"note": "Sunday is always bad. Too lazy to be normal."
-	},
-	"day8": {
+		"note": "Sunday is always bad. Too lazy to be normal."},
+{
 		"date": "Monday, March 17th",
 		"t-startwork": "10:00",
 		"a-startwork": "10:02",
@@ -125,9 +117,8 @@
 		"a-dinner": "18:25",
 		"mood": ["08:39", -2, "15:02", 0, "21:34", -2],
 		"energy": ["09:30", 4, "13:23", 3, "15:02", 5, "21:46", -4],
-		"note": "Normal day"
-	},
-	"day9": {
+		"note": "Normal day"},
+{
 		"date": "Tuesday, March 18th",
 		"t-startwork": "10:00",
 		"a-startwork": "11:35",
@@ -141,9 +132,8 @@
 		"a-dinner": "17:45",
 		"mood": ["09:20", 1, "14:02", 2, "19:34", -2],
 		"energy": ["08:22", 0, "10:52", 1, "16:09", 2, "18:46", 4],
-		"note": "Was late to work because I was waiting someone to fix the bathtub."
-	},
-	"day10": {
+		"note": "Was late to work because I was waiting someone to fix the bathtub."},
+{
 		"date": "Wednesday, March 19th",
 		"t-startwork": "10:00",
 		"a-startwork": "10:05",
@@ -157,9 +147,8 @@
 		"a-dinner": "20:00",
 		"mood": ["06:21", 2, "12:02", 5, "22:34", -2],
 		"energy": ["07:23", 4, "14:23", 2, "21:02", -3, "21:46", -4],
-		"note": "Normal day"
-	},
-	"day11": {
+		"note": "Normal day"},
+{
 		"date": "Thursday, March 20th",
 		"t-startwork": "10:00",
 		"a-startwork": "10:00",
@@ -175,4 +164,5 @@
 		"energy": ["06:58", 0, "07:20", 3, "11:29", 4],
 		"note": "Good day."
 	}
-}
+
+]}
