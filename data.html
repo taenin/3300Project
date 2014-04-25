@@ -258,13 +258,24 @@
         });
 
 
+      drawDay1();
+
+    })
+
+      /** Convert a time string to percentage number. For example, 12:00 to 0.5; 24:00 to 1; 06:00 to 0.25. That makes it easier to draw svg on canvas.*/
+      function timeToPercent(time){
+        return 890 * (1000*parseInt(time[0]) + 100*parseInt(time[1]) + 10*parseInt(time[3]) + parseInt(time[4])) / 2400;
+      }
+
       //canvas for svg each day
       var width = 920;
       var height = 200;
 
+
       drawDay1(.8);
 
       function drawDay1(opacityLevel){
+
 
         /** Write date on top*/
         var date = d3.select("#day1").append('h4')
@@ -295,8 +306,10 @@
         
 
         
+
         /** Draw energy circles and lines. */
         var energys = patient.days[currentDay].energy;
+
         energys.forEach(function(e) {       
           //Map -5, 5 onto the svg.
           var yScale = d3.scale.linear()
@@ -314,6 +327,7 @@
 
         // <line x1="0" y1="67" x2="200" y2="67" stroke-dasharray="8,8" style="stroke:#ffe8b2; stroke-width:3px;"/>
 
+        /** Draw lines for energys.*/
         for(var i = 0; i <= energys.length; i++) {
 
           var yScale = d3.scale.linear()
@@ -349,9 +363,11 @@
                         .attr('stroke-width','3px');
         }
 
+
         var c = 200;
         /** Draw mood circles and lines. */
         var moods = patient.days[currentDay].mood;
+
         moods.forEach(function(e) {
 
           var yScale = d3.scale.linear()
@@ -370,16 +386,40 @@
                         .style("fill", "#ffe8b2");
         })
 
+        /** Draw lines for moods.*/
+        for(var i = 0; i <= moods.length; i++) {
 
-      }
+          var yScale = d3.scale.linear()
+                               .domain([-5, 5])
+                               .range([50, 200]);
+          if(i == 0) {
+            var beforeX = 0;
+            var beforeY = yScale(-moods[0][1])+8;
+          } else {
+            var beforeX = timeToPercent(moods[i-1][0]);
+            var beforeY = yScale(-moods[i-1][1])+8;
+          }
 
-      
-      /** Convert a time string to percentage number. For example, 12:00 to 0.5; 24:00 to 1; 06:00 to 0.25. That makes it easier to draw svg on canvas.*/
-      function timeToPercent(time){
-        return 890 * (1000*parseInt(time[0]) + 100*parseInt(time[1]) + 10*parseInt(time[3]) + parseInt(time[4])) / 2400;
-      }
+          if(i == moods.length) {
+            var afterX = 960;
+            var afterY = yScale(-moods[i-1][1])+8;
+          } else {
+            var afterX = timeToPercent(moods[i][0]);
+            var afterY = yScale(-moods[i][1])+8;
+          }
+          console.log(beforeY);
 
-    })
+          var line = svg.append("line")
+                        .attr('class', "Energy")
+                        .attr('x1', beforeX)
+                        .attr('y1', beforeY)
+                        .attr('x2', afterX)
+                        .attr('y2', afterY)
+                        .attr('stroke-dasharray', '8,8')
+                        .style('stroke', 'rgb(255, 232, 178)')
+                        .attr('stroke-width','3px');
+        }
+
 
     function changeDay(n){
 
@@ -399,6 +439,7 @@
       drawDay1(currentDay);
 
     }
+
 
     
     //Graph Controls
