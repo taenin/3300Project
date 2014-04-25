@@ -220,6 +220,9 @@
     var Saturday=[];
     var Sunday=[];
 
+    //Day of the Current Display
+    var currentDay = 0;
+
     //get information from JSON
     d3.json("info.json", function(error, json){
       if(error) return console.warn(error);
@@ -259,14 +262,14 @@
       var width = 920;
       var height = 200;
 
-      drawDay1();
+      drawDay1(.8);
 
-      function drawDay1(){
+      function drawDay1(opacityLevel){
 
         /** Write date on top*/
         var date = d3.select("#day1").append('h4')
                                       .attr("class","date")
-                                      .text(patient.days[0].date);
+                                      .text(patient.days[currentDay].date);
 
         /** Draw left index -5 to 5.*/
         d3.select("#day1").append('div').attr('class',"index").append('ul').append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0").append('li').text("-1").append('li').text("-2").append('li').text("-3").append('li').text("-4").append('li').text("-5");
@@ -283,25 +286,29 @@
 
         /** Draw target first social.*/
         var tFirstSocial = svg.append("rect")
+                              .attr('id', "Canvas1")
                               .attr("class", "FirstSocial")
                               .attr("width",10)
                               .attr("height",40)
+                              .attr('opacity', .8)
                               .style("fill","#85eed9");
         
 
         
         /** Draw energy circles and lines. */
-        var energys = patient.days[0].energy;
+        var energys = patient.days[currentDay].energy;
         energys.forEach(function(e) {       
           //Map -5, 5 onto the svg.
           var yScale = d3.scale.linear()
                     .domain([-5, 5])
                     .range([50, 200]);
           var energy = svg.append("circle")
+                          .attr('id', "Canvas1")
                           .attr('class', "Energy")
                           .attr('cx', timeToPercent(e[0]))
                           .attr('cy', yScale(-e[1]))
                           .attr('r', 7.5)
+                          .attr('opacity', .8)
                           .style("fill", "#c9dae5");
         });
 
@@ -330,11 +337,13 @@
           console.log(beforeY);
 
           var line = svg.append("line")
+                        .attr('id', "Canvas1")
                         .attr('class', "Energy")
                         .attr('x1', beforeX)
                         .attr('y1', beforeY)
                         .attr('x2', afterX)
                         .attr('y2', afterY)
+                        .attr('opacity', .8)
                         .attr('stroke-dasharray', '5,5')
                         .style('stroke', '#c9dae5')
                         .attr('stroke-width','3px');
@@ -342,7 +351,7 @@
 
         var c = 200;
         /** Draw mood circles and lines. */
-        var moods = patient.days[0].mood;
+        var moods = patient.days[currentDay].mood;
         moods.forEach(function(e) {
 
           var yScale = d3.scale.linear()
@@ -351,6 +360,8 @@
 
           var mood = svg.append("rect")
                         .attr('class',"Mood")
+                        .attr('id', "Canvas1")
+                        .attr('opacity', .8)
                         .attr('rx', 4)
                         .attr('ry', 4)
                         .attr('height', 14)
@@ -369,6 +380,25 @@
       }
 
     })
+
+    function changeDay(n){
+
+      d3.selectAll("#Canvas1").transition()
+        .duration(750)
+        .attr("opacity",0);
+      setTimeout(function(){d3.selectAll("#Canvas1").remove()}, 750);
+
+      currentDay = currentDay + n;
+
+      if(!(0<=currentDay && currentDay < patient.days.length()))
+      {
+        currentDay = Math.max(currentDay, 0);
+        currentDay = Math.min(currentDay, patient.days.length()-1);
+      }
+
+      drawDay1(currentDay);
+
+    }
 
     
     //Graph Controls
