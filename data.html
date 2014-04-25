@@ -298,7 +298,7 @@
 
         
         /** Draw energy circles. */
-        var energys = patient.day1.energy;
+        var energys = patient.days[0].energy;
         energys.forEach(function(e) {       
           //Map -5, 5 onto the svg.
           var yScale = d3.scale.linear()
@@ -314,7 +314,7 @@
 
         var c = 200;
         /** Draw mood circles*/
-        var moods = patient.day1.mood;
+        var moods = patient.days[0].mood;
         moods.forEach(function(e) {
           var mood = svg.append("rect")
                         .attr('class',"Mood")
