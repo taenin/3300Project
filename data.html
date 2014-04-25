@@ -288,15 +288,33 @@
                                     .attr("width", width)
                                     .style("float","left");
 
+
         /** Draw target first social.*/
         var tFirstSocial = svg.append("rect")
                               .attr("class", "FirstSocial")
                               .attr("width",10)
                               .attr("height",40)
+                              .attr("transform", "translate(280,0)")
                               .style("fill","#85eed9");
         
-
+        /** Draw actual first social.*/
+        var afs = timeToPercent(patient.days[0].tfirstsocial);
+        console.log(afs);
         
+
+        var aFirstSocial = svg.append("rect")
+                              .attr("class", "FirstSocial")
+                              .attr("width",10)
+                              .attr("height",160)
+                              .attr("transform", "translate("+afs+",40)")
+                              .style("fill","#85eed9");
+
+        // <rect width="10" height="40" style="fill:#1e826e; opacity:0.8;" transform="translate(280,0)"/>
+        //     <rect width="10" height="160" style="fill:#1e826e; opacity:0.8;" transform="translate(290,40)"/>
+        //     <line x1="0" y1="40" x2="950" y2="40" style="stroke:#ffffff; stroke-width:3px;"/>
+
+
+
         /** Draw energy circles. */
         var energys = patient.days[0].energy;
         energys.forEach(function(e) {       
@@ -335,7 +353,6 @@
             var afterX = timeToPercent(energys[i][0]);
             var afterY = yScale(-energys[i][1]);
           }
-          console.log(beforeY);
 
           var line = svg.append("line")
                         .attr('class', "Energy")
@@ -387,7 +404,6 @@
             var afterX = timeToPercent(moods[i][0]);
             var afterY = yScale(-moods[i][1])+8;
           }
-          console.log(beforeY);
 
           var line = svg.append("line")
                         .attr('class', "Energy")
@@ -395,6 +411,7 @@
                         .attr('y1', beforeY)
                         .attr('x2', afterX)
                         .attr('y2', afterY)
+                        .attr('class', "Mood")
                         .attr('stroke-dasharray', '8,8')
                         .style('stroke', 'rgb(255, 232, 178)')
                         .attr('stroke-width','3px');
