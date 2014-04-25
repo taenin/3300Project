@@ -211,11 +211,49 @@
 
     <script>
     var patient;
+    //Variables contain data relevant to each day. Data is contained in an array.
+    var Monday=[];
+    var Tuesday=[];
+    var Wednesday=[];
+    var Thursday=[];
+    var Friday=[];
+    var Saturday=[];
+    var Sunday=[];
 
     //get information from JSON
     d3.json("info.json", function(error, json){
       if(error) return console.warn(error);
       patient = json;
+
+      patient.days.forEach(function(day){
+
+      var dayAbrev = day.date.slice(0,3);
+          if(dayAbrev == "Mon"){
+            Monday.push(day);
+          }
+          else if(dayAbrev =="Tue"){
+            Tuesday.push(day);
+          }
+          else if(dayAbrev=="Wed"){
+            Wednesday.push(day);
+          }
+          else if(dayAbrev=="Thu"){
+            Thursday.push(day);
+          }
+          else if(dayAbrev=="Fri"){
+            Friday.push(day);
+          }
+          else if(dayAbrev=="Sat"){
+            Saturday.push(day);
+          }
+          else if(dayAbrev=="Sun"){
+            Sunday.push(day)
+          }
+          else{
+            alert("Error" + dayAbrev);
+          }
+        });
+
 
       //canvas for svg each day
       var width = 920;
@@ -223,12 +261,19 @@
 
       drawDay1();
 
+
+
+
+
+
+
+
       function drawDay1(){
 
         /** Write date on top*/
         var date = d3.select("#day1").append('h4')
                                       .attr("class","date")
-                                      .text(patient.day1.date);
+                                      .text(patient.days[0].date);
 
         /** Draw left index -5 to 5.*/
         d3.select("#day1").append('div').attr('class',"index").append('ul').append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0").append('li').text("-1").append('li').text("-2").append('li').text("-3").append('li').text("-4").append('li').text("-5");
