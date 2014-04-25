@@ -162,17 +162,17 @@
 	"day11": {
 		"date": "Thursday, March 20th",
 		"t-startwork": "10:00",
-		"a-startwork": "10:05",
+		"a-startwork": "10:00",
 		"t-firstsocial":"10:02",
-		"a-firstsocial": "09:40",
+		"a-firstsocial": "10:00",
 		"t-getup": "07:00",
-		"a-getup": "07:32",
+		"a-getup": "06:58",
 		"t-gotobed": "22:40",
-		"a-gotobed": "23:36",
+		"a-gotobed": "23:06",
 		"t-dinner":"19:00",
-		"a-dinner": "20:00",
-		"mood": ["06:21", 2, "12:02", 5, "22:34", -2],
-		"energy": ["07:23", 4, "14:23", 2, "21:02", -3, "21:46", -4],
-		"note": "Normal day"
+		"a-dinner": "18:05",
+		"mood": ["12:08", 1],
+		"energy": ["06:58", 0, "07:20", 3, "11:29", 4],
+		"note": "Good day."
 	}
 }
