@@ -78,8 +78,8 @@
         </li> 
         <li>          
 
-          <input type="checkbox" id="FirstSocialController"   class="FirstSocialController" checked=true>
-          <label for="FirstSocialController">
+        <input type="checkbox" id="FirstSocialController"   class="FirstSocialController" checked=true>
+        <label for="FirstSocialController">
           First Social
         </label>
         </li> 
@@ -185,6 +185,7 @@
 
 
       <div id="day1"></div>
+
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -229,10 +230,18 @@
                                       .attr("class","date")
                                       .text(patient.day1.date);
 
+        /** Draw left index -5 to 5.*/
+        d3.select("#day1").append('div').attr('class',"index").append('ul').append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0").append('li').text("-1").append('li').text("-2").append('li').text("-3").append('li').text("-4").append('li').text("-5");
+
+        /** Draw time index from 0AM to 0AM next day*/
+        d3.select("#day1").append('ul').attr('class',"time").append('li').text("0AM").append('li').text("11").append('li').text("10").append('li').text("9").append('li').text("8").append('li').text("7").append('li').text("6").append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("12PM").append('li').text("11").append('li').text("10").append('li').text("9").append('li').text("8").append('li').text("7").append('li').text("6").append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0AM");
+
+
         /** Draw SVG*/
         var svg = d3.select("#day1").append("svg")
                                     .attr("height", height)
-                                    .attr("width", width);
+                                    .attr("width", width)
+                                    .style("float","left");
 
         /** Draw target first social.*/
         var tFirstSocial = svg.append("rect")
@@ -241,29 +250,49 @@
                               .attr("height",40)
                               .style("fill","#85eed9");
         
-        /** Draw left index -5 to 5.*/
-        d3.select("#day1").append('div').attr('class',"index").append('ul').append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0").append('li').text("-1").append('li').text("-2").append('li').text("-3").append('li').text("-4").append('li').text("-5");
+
         
-        /** Draw energy*/
-        var energy = svg.append("circle")
-                        .attr('class', "Mood")
-                        .attr('cx',100)
-                        .attr('cy', 100)
-                        .attr('r', 7.5)
-                        .style("fill", "#c9dae5");
+        /** Draw energy circles. */
+        var energys = patient.day1.energy;
+        energys.forEach(function(e) {       
+          //Map -5, 5 onto the svg.
+          var yScale = d3.scale.linear()
+                    .domain([-5, 5])
+                    .range([50, 200]);
+          var energy = svg.append("circle")
+                          .attr('class', "Energy")
+                          .attr('cx', timeToPercent(e[0]))
+                          .attr('cy', yScale(-e[1]))
+                          .attr('r', 7.5)
+                          .style("fill", "#c9dae5");
+        });
+
+        var c = 200;
+        /** Draw mood circles*/
+        var moods = patient.day1.mood;
+        moods.forEach(function(e) {
+          var mood = svg.append("rect")
+                        .attr('class',"Mood")
+                        .attr('rx', 4)
+                        .attr('ry', 4)
+                        .attr('height', 14)
+                        .attr('width', 14)
+                        .attr('transform', 'translate('+timeToPercent(e[0])+',60)')
+                        .style("fill", "#ffe8b2");
+        })
+
 
       }
 
       
       /** Convert a time string to percentage number. For example, 12:00 to 0.5; 24:00 to 1; 06:00 to 0.25. That makes it easier to draw svg on canvas.*/
       function timeToPercent(time){
-        return (1000*parseInt(time[0]) + 100*parseInt(time[1]) + 10*parseInt(time[3]) + parseInt(time[4])) / 2400;
+        return 890 * (1000*parseInt(time[0]) + 100*parseInt(time[1]) + 10*parseInt(time[3]) + parseInt(time[4])) / 2400;
       }
 
     })
 
     
-
     //Graph Controls
     d3.select(".StartWorkController")
       .on("click", function(){
