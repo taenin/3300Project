@@ -261,13 +261,6 @@
 
       drawDay1();
 
-
-
-
-
-
-
-
       function drawDay1(){
 
         /** Write date on top*/
@@ -297,7 +290,7 @@
         
 
         
-        /** Draw energy circles. */
+        /** Draw energy circles and lines. */
         var energys = patient.days[0].energy;
         energys.forEach(function(e) {       
           //Map -5, 5 onto the svg.
@@ -312,17 +305,57 @@
                           .style("fill", "#c9dae5");
         });
 
+        // <line x1="0" y1="67" x2="200" y2="67" stroke-dasharray="8,8" style="stroke:#ffe8b2; stroke-width:3px;"/>
+
+        for(var i = 0; i <= energys.length; i++) {
+
+          var yScale = d3.scale.linear()
+                               .domain([-5, 5])
+                               .range([50, 200]);
+          if(i == 0) {
+            var beforeX = 0;
+            var beforeY = yScale(-energys[0][1]);
+          } else {
+            var beforeX = timeToPercent(energys[i-1][0]);
+            var beforeY = yScale(-energys[i-1][1]);
+          }
+
+          if(i == energys.length) {
+            var afterX = 960;
+            var afterY = yScale(-energys[i-1][1]);
+          } else {
+            var afterX = timeToPercent(energys[i][0]);
+            var afterY = yScale(-energys[i][1]);
+          }
+          console.log(beforeY);
+
+          var line = svg.append("line")
+                        .attr('class', "Energy")
+                        .attr('x1', beforeX)
+                        .attr('y1', beforeY)
+                        .attr('x2', afterX)
+                        .attr('y2', afterY)
+                        .attr('stroke-dasharray', '5,5')
+                        .style('stroke', '#c9dae5')
+                        .attr('stroke-width','3px');
+        }
+
         var c = 200;
-        /** Draw mood circles*/
+        /** Draw mood circles and lines. */
         var moods = patient.days[0].mood;
         moods.forEach(function(e) {
+
+          var yScale = d3.scale.linear()
+                              .domain([-5, 5])
+                              .range([50, 200]);
+
           var mood = svg.append("rect")
                         .attr('class',"Mood")
                         .attr('rx', 4)
                         .attr('ry', 4)
                         .attr('height', 14)
                         .attr('width', 14)
-                        .attr('transform', 'translate('+timeToPercent(e[0])+',60)')
+                        .attr('transform', 'translate('+timeToPercent(e[0])+','+yScale(-e[1])+')')
                         .style("fill", "#ffe8b2");
         })
 
