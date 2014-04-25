@@ -69,6 +69,7 @@
     <div class="container" id="graph-container">
       <h2>Week 2 March 2014</h2>
 
+
       <ul class="symbols">
         <li class="StartWorkController">
           <input type="checkbox" id="StartWorkController"   class="StartWorkController" checked=true>
@@ -206,63 +207,34 @@
         $("[data-toggle='tooltip']").tooltip(); 
     });
     </script>
-
-
     <script>
-    var patient;
 
-    //get information from JSON
-    d3.json("info.json", function(error, json){
-      if(error) return console.warn(error);
-      patient = json;
 
-      //canvas for svg each day
-      var width = 920;
-      var height = 200;
 
-      drawDay1();
+    //functions for graph
+    var width = 920;
+    var height = 200;
+    drawDay1();
+    function drawDay1(){
 
-      function drawDay1(){
+      /** Draw date and note*/
+      d3.select("#day1").append('h4').attr("class","date").text("Monday, March 11th");
 
-        /** Write date on top*/
-        var date = d3.select("#day1").append('h4')
-                                      .attr("class","date")
-                                      .text(patient.day1.date);
+      /** Draw SVG*/
+      var svg = d3.select("#day1").append("svg").attr("height", height).attr("width", width);
 
-        /** Draw SVG*/
-        var svg = d3.select("#day1").append("svg")
-                                    .attr("height", height)
-                                    .attr("width", width);
-
-        /** Draw target first social.*/
-        var tFirstSocial = svg.append("rect")
-                              .attr("class", "FirstSocial")
-                              .attr("width",10)
-                              .attr("height",40)
-                              .style("fill","#85eed9");
-        
-        /** Draw left index -5 to 5.*/
-        d3.select("#day1").append('div').attr('class',"index").append('ul').append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0").append('li').text("-1").append('li').text("-2").append('li').text("-3").append('li').text("-4").append('li').text("-5");
-        
-        /** Draw energy*/
-        var energy = svg.append("circle")
-                        .attr('class', "Mood")
-                        .attr('cx',100)
-                        .attr('cy', 100)
-                        .attr('r', 7.5)
-                        .style("fill", "#c9dae5");
-
-      }
-
+      /** Draw target first social.*/
+      svg.append("rect").attr("width",10).attr("height",40).style("fill","#85eed9");
       
-      /** Convert a time string to percentage number. For example, 12:00 to 0.5; 24:00 to 1; 06:00 to 0.25. That makes it easier to draw svg on canvas.*/
-      function timeToPercent(time){
-        return (1000*parseInt(time[0]) + 100*parseInt(time[1]) + 10*parseInt(time[3]) + parseInt(time[4])) / 2400;
-      }
+      /** Draw left index -5 to 5.*/
+      d3.select("#day1").append('div').attr('class',"index").append('ul').append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0").append('li').text("-1").append('li').text("-2").append('li').text("-3").append('li').text("-4").append('li').text("-5");
+      
+    }
 
-    })
+<<<<<<< HEAD
+=======
 
-    
+>>>>>>> 6772a62e8994ec3bd71aeb892d606f84946a15cc
 
     //Graph Controls
     d3.select(".StartWorkController")
