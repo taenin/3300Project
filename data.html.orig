@@ -69,7 +69,6 @@
     <div class="container" id="graph-container">
       <h2>Week 2 March 2014</h2>
 
-
       <ul class="symbols">
         <li class="StartWorkController">
           <input type="checkbox" id="StartWorkController"   class="StartWorkController" checked=true>
@@ -79,8 +78,8 @@
         </li> 
         <li>          
 
-          <input type="checkbox" id="FirstSocialController"   class="FirstSocialController" checked=true>
-          <label for="FirstSocialController">
+        <input type="checkbox" id="FirstSocialController"   class="FirstSocialController" checked=true>
+        <label for="FirstSocialController">
           First Social
         </label>
         </li> 
@@ -186,6 +185,7 @@
 
 
       <div id="day1"></div>
+
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -207,35 +207,265 @@
         $("[data-toggle='tooltip']").tooltip(); 
     });
     </script>
+
+
     <script>
+    var patient;
+    //Variables contain data relevant to each day. Data is contained in an array.
+    var Monday=[];
+    var Tuesday=[];
+    var Wednesday=[];
+    var Thursday=[];
+    var Friday=[];
+    var Saturday=[];
+    var Sunday=[];
+
+    //Day of the Current Display
+    var currentDay = 0;
+
+    //get information from JSON
+    d3.json("info.json", function(error, json){
+      if(error) return console.warn(error);
+      patient = json;
+
+      patient.days.forEach(function(day){
+
+      var dayAbrev = day.date.slice(0,3);
+          if(dayAbrev == "Mon"){
+            Monday.push(day);
+          }
+          else if(dayAbrev =="Tue"){
+            Tuesday.push(day);
+          }
+          else if(dayAbrev=="Wed"){
+            Wednesday.push(day);
+          }
+          else if(dayAbrev=="Thu"){
+            Thursday.push(day);
+          }
+          else if(dayAbrev=="Fri"){
+            Friday.push(day);
+          }
+          else if(dayAbrev=="Sat"){
+            Saturday.push(day);
+          }
+          else if(dayAbrev=="Sun"){
+            Sunday.push(day)
+          }
+          else{
+            alert("Error" + dayAbrev);
+          }
+        });
 
 
+      drawDay1(.8);
 
-    //functions for graph
-    var width = 920;
-    var height = 200;
-    drawDay1();
-    function drawDay1(){
+    })
 
-      /** Draw date and note*/
-      d3.select("#day1").append('h4').attr("class","date").text("Monday, March 11th");
+      /** Convert a time string to percentage number. For example, 12:00 to 0.5; 24:00 to 1; 06:00 to 0.25. That makes it easier to draw svg on canvas.*/
+      function timeToPercent(time){
+        return 890 * (1000*parseInt(time[0]) + 100*parseInt(time[1]) + 10*parseInt(time[3]) + parseInt(time[4])) / 2400;
+      }
 
-      /** Draw SVG*/
-      var svg = d3.select("#day1").append("svg").attr("height", height).attr("width", width);
+      //canvas for svg each day
+      var width = 920;
+      var height = 200;
 
-      /** Draw target first social.*/
-      svg.append("rect").attr("width",10).attr("height",40).style("fill","#85eed9");
-      
-      /** Draw left index -5 to 5.*/
-      d3.select("#day1").append('div').attr('class',"index").append('ul').append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0").append('li').text("-1").append('li').text("-2").append('li').text("-3").append('li').text("-4").append('li').text("-5");
-      
-    }
+
+      drawDay1(.8);
+
+      function drawDay1(opacityLevel){
+
+
+        /** Write date on top*/
+        var date = d3.select("#day1").append('h4')
+                                      .attr("class","date")
+                                      .text(patient.days[currentDay].date);
+
+        /** Draw left index -5 to 5.*/
+        d3.select("#day1").append('div').attr('class',"index").append('ul').append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0").append('li').text("-1").append('li').text("-2").append('li').text("-3").append('li').text("-4").append('li').text("-5");
+
+        /** Draw time index from 0AM to 0AM next day*/
+        d3.select("#day1").append('ul').attr('class',"time").append('li').text("0AM").append('li').text("11").append('li').text("10").append('li').text("9").append('li').text("8").append('li').text("7").append('li').text("6").append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("12PM").append('li').text("11").append('li').text("10").append('li').text("9").append('li').text("8").append('li').text("7").append('li').text("6").append('li').text("5").append('li').text("4").append('li').text("3").append('li').text("2").append('li').text("1").append('li').text("0AM");
+
+
+        /** Draw SVG*/
+        var svg = d3.select("#day1").append("svg")
+                                    .attr("height", height)
+                                    .attr("width", width)
+                                    .style("float","left");
+
+
+        /** Draw target first social.*/
+        var tFirstSocial = svg.append("rect")
+                              .attr('id', "Canvas1")
+                              .attr("class", "FirstSocial")
+                              .attr("width",10)
+                              .attr("height",40)
+<<<<<<< HEAD
+                              .attr("transform", "translate(280,0)")
+=======
+                              .attr('opacity', .8)
+>>>>>>> 3fb61cfe7be3832967866e6a99b1bac3c2776d9e
+                              .style("fill","#85eed9");
+        
+        /** Draw actual first social.*/
+        var afs = timeToPercent(patient.days[0].tfirstsocial);
+        console.log(afs);
+        
 
 <<<<<<< HEAD
+        var aFirstSocial = svg.append("rect")
+                              .attr("class", "FirstSocial")
+                              .attr("width",10)
+                              .attr("height",160)
+                              .attr("transform", "translate("+afs+",40)")
+                              .style("fill","#85eed9");
+
+        // <rect width="10" height="40" style="fill:#1e826e; opacity:0.8;" transform="translate(280,0)"/>
+        //     <rect width="10" height="160" style="fill:#1e826e; opacity:0.8;" transform="translate(290,40)"/>
+        //     <line x1="0" y1="40" x2="950" y2="40" style="stroke:#ffffff; stroke-width:3px;"/>
+
+
+
+        /** Draw energy circles. */
+        var energys = patient.days[0].energy;
 =======
+        /** Draw energy circles and lines. */
+        var energys = patient.days[currentDay].energy;
 
->>>>>>> 6772a62e8994ec3bd71aeb892d606f84946a15cc
+>>>>>>> 3fb61cfe7be3832967866e6a99b1bac3c2776d9e
+        energys.forEach(function(e) {       
+          //Map -5, 5 onto the svg.
+          var yScale = d3.scale.linear()
+                    .domain([-5, 5])
+                    .range([50, 200]);
+          var energy = svg.append("circle")
+                          .attr('id', "Canvas1")
+                          .attr('class', "Energy")
+                          .attr('cx', timeToPercent(e[0]))
+                          .attr('cy', yScale(-e[1]))
+                          .attr('r', 7.5)
+                          .attr('opacity', .8)
+                          .style("fill", "#c9dae5");
+        });
 
+        // <line x1="0" y1="67" x2="200" y2="67" stroke-dasharray="8,8" style="stroke:#ffe8b2; stroke-width:3px;"/>
+
+        /** Draw lines for energys.*/
+        for(var i = 0; i <= energys.length; i++) {
+
+          var yScale = d3.scale.linear()
+                               .domain([-5, 5])
+                               .range([50, 200]);
+          if(i == 0) {
+            var beforeX = 0;
+            var beforeY = yScale(-energys[0][1]);
+          } else {
+            var beforeX = timeToPercent(energys[i-1][0]);
+            var beforeY = yScale(-energys[i-1][1]);
+          }
+
+          if(i == energys.length) {
+            var afterX = 960;
+            var afterY = yScale(-energys[i-1][1]);
+          } else {
+            var afterX = timeToPercent(energys[i][0]);
+            var afterY = yScale(-energys[i][1]);
+          }
+
+          var line = svg.append("line")
+                        .attr('id', "Canvas1")
+                        .attr('class', "Energy")
+                        .attr('x1', beforeX)
+                        .attr('y1', beforeY)
+                        .attr('x2', afterX)
+                        .attr('y2', afterY)
+                        .attr('opacity', .8)
+                        .attr('stroke-dasharray', '5,5')
+                        .style('stroke', '#c9dae5')
+                        .attr('stroke-width','3px');
+        }
+
+
+        var c = 200;
+        /** Draw mood circles and lines. */
+        var moods = patient.days[currentDay].mood;
+
+        moods.forEach(function(e) {
+
+          var yScale = d3.scale.linear()
+                              .domain([-5, 5])
+                              .range([50, 200]);
+
+          var mood = svg.append("rect")
+                        .attr('class',"Mood")
+                        .attr('id', "Canvas1")
+                        .attr('opacity', .8)
+                        .attr('rx', 4)
+                        .attr('ry', 4)
+                        .attr('height', 14)
+                        .attr('width', 14)
+                        .attr('transform', 'translate('+timeToPercent(e[0])+','+yScale(-e[1])+')')
+                        .style("fill", "#ffe8b2");
+        })
+
+        /** Draw lines for moods.*/
+        for(var i = 0; i <= moods.length; i++) {
+
+          var yScale = d3.scale.linear()
+                               .domain([-5, 5])
+                               .range([50, 200]);
+          if(i == 0) {
+            var beforeX = 0;
+            var beforeY = yScale(-moods[0][1])+8;
+          } else {
+            var beforeX = timeToPercent(moods[i-1][0]);
+            var beforeY = yScale(-moods[i-1][1])+8;
+          }
+
+          if(i == moods.length) {
+            var afterX = 960;
+            var afterY = yScale(-moods[i-1][1])+8;
+          } else {
+            var afterX = timeToPercent(moods[i][0]);
+            var afterY = yScale(-moods[i][1])+8;
+          }
+
+          var line = svg.append("line")
+                        .attr('class', "Energy")
+                        .attr('x1', beforeX)
+                        .attr('y1', beforeY)
+                        .attr('x2', afterX)
+                        .attr('y2', afterY)
+                        .attr('class', "Mood")
+                        .attr('stroke-dasharray', '8,8')
+                        .style('stroke', 'rgb(255, 232, 178)')
+                        .attr('stroke-width','3px');
+        }
+
+
+    function changeDay(n){
+
+      d3.selectAll("#Canvas1").transition()
+        .duration(750)
+        .attr("opacity",0);
+      setTimeout(function(){d3.selectAll("#Canvas1").remove()}, 750);
+
+      currentDay = currentDay + n;
+
+      if(!(0<=currentDay && currentDay < patient.days.length()))
+      {
+        currentDay = Math.max(currentDay, 0);
+        currentDay = Math.min(currentDay, patient.days.length()-1);
+      }
+
+      drawDay1(currentDay);
+
+    }
+
+
+    
     //Graph Controls
     d3.select(".StartWorkController")
       .on("click", function(){
